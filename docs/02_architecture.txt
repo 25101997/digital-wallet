@@ -1,0 +1,156 @@
+new-system-name/
+├── apps/
+│   ├── api/
+│   │   ├── src/
+│   │   │   └──  featurers/
+│   │   │       ├── controllers/
+│   │   │       ├── services/
+│   │   │       ├── repositories/
+│   │   │       ├── models/
+│   │   │       ├── dtos/
+│   │   │       ├── middleware/
+│   │   │       ├── config/
+│   │   │       ├── utils/
+│   │   │       └── main.*
+│   │   ├── tests/
+│   │   │   ├── unit/
+│   │   │   ├── integration/
+│   │   │   └── fixtures/
+│   │   ├── scripts/
+│   │   ├── Dockerfile
+│   │   ├── .dockerignore
+│   │   ├── .env.example
+│   │   ├── package.json / *.csproj / pom.xml
+│   │   └── README.md
+│   │
+│   └── web/
+│       ├── src/
+│       │   ├── app/
+│       │   ├── assets/
+│       │   ├── environments/
+│       │   ├── styles/
+│       │   └── main.*
+│       ├── tests/
+│       │   ├── unit/
+│       │   └── e2e/
+│       ├── scripts/
+│       ├── Dockerfile
+│       ├── .dockerignore
+│       ├── .env.example
+│       ├── package.json
+│       └── README.md
+│
+├── database/
+│   ├── migrations/
+│   ├── seeds/
+│   ├── init/
+│   ├── backups/
+│   ├── schema/
+│   └── README.md
+│
+├── deploy/
+│   ├── docker/
+│   │   ├── docker-compose.dev.yml
+│   │   ├── docker-compose.test.yml
+│   │   ├── docker-compose.prod.yml
+│   │   └── .env.example
+│   │
+│   ├── nginx/
+│   │   ├── default.conf
+│   │   ├── prod.conf
+│   │   └── ssl/
+│   │
+│   ├── scripts/
+│   │   ├── deploy.sh
+│   │   ├── rollback.sh
+│   │   ├── backup-db.sh
+│   │   ├── restore-db.sh
+│   │   ├── healthcheck.sh
+│   │   └── wait-for-services.sh
+│   │
+│   ├── kubernetes/
+│   │   ├── base/
+│   │   │   ├── namespace.yml
+│   │   │   ├── configmap.yml
+│   │   │   ├── secrets.yml
+│   │   │   ├── api-deployment.yml
+│   │   │   ├── api-service.yml
+│   │   │   ├── web-deployment.yml
+│   │   │   ├── web-service.yml
+│   │   │   ├── db-statefulset.yml
+│   │   │   ├── db-service.yml
+│   │   │   └── ingress.yml
+│   │   └── overlays/
+│   │       ├── dev/
+│   │       └── prod/
+│   │
+│   └── terraform/
+│       ├── environments/
+│       │   ├── dev/
+│       │   └── prod/
+│       ├── modules/
+│       │   ├── network/
+│       │   ├── compute/
+│       │   ├── database/
+│       │   └── registry/
+│       └── README.md
+│
+├── monitoring/
+│   ├── prometheus/
+│   │   ├── prometheus.yml
+│   │   └── alerts/
+│   ├── grafana/
+│   │   ├── dashboards/
+│   │   └── datasources/
+│   ├── loki/
+│   ├── promtail/
+│   └── alertmanager/
+│
+├── security/
+│   ├── trivy/
+│   ├── snyk/
+│   ├── dependency-check/
+│   ├── secrets/
+│   └── policies/
+│
+├── tests/
+│   ├── e2e/
+│   ├── performance/
+│   ├── contract/
+│   └── smoke/
+│
+├── docs/
+│   ├── architecture/
+│   │   ├── diagrams/
+│   │   ├── decisions/
+│   │   └── flows/
+│   ├── api/
+│   ├── database/
+│   ├── deployment/
+│   ├── monitoring/
+│   ├── runbooks/
+│   ├── incident-response/
+│   └── onboarding/
+│
+├── .github/
+│   └── workflows/
+│       ├── api-ci.yml
+│       ├── web-ci.yml
+│       ├── security-scan.yml
+│       ├── docker-build.yml
+│       ├── deploy-dev.yml
+│       └── deploy-prod.yml
+│
+├── .husky/
+├── .vscode/
+├── scripts/
+│   ├── setup-local.sh
+│   ├── lint-all.sh
+│   ├── test-all.sh
+│   └── format-all.sh
+├── .editorconfig
+├── .gitignore
+├── .env.example
+├── Makefile
+├── README.md
+└── LICENSE

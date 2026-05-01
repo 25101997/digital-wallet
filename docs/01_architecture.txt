@@ -1,0 +1,69 @@
+new-system-name/
+├── apps/
+│   ├── api/
+│   │   ├── src/
+│   │   ├── tests/
+│   │   ├── scripts/
+│   │   ├── Dockerfile
+│   │   ├── .dockerignore
+│   │   └── .env.example
+│   │
+│   └── web/
+│       ├── src/
+│       ├── tests/
+│       ├── scripts/
+│       ├── Dockerfile
+│       ├── .dockerignore
+│       └── .env.example
+│
+├── database/
+│   ├── migrations/
+│   ├── seeds/
+│   ├── init/
+│   └── README.md
+│
+├── deploy/
+│   ├── docker/
+│   │   ├── docker-compose.dev.yml
+│   │   ├── docker-compose.prod.yml
+│   │   └── .env.example
+│   ├── nginx/
+│   │   └── default.conf
+│   ├── scripts/
+│   │   ├── deploy.sh
+│   │   ├── rollback.sh
+│   │   └── backup-db.sh
+│   └── kubernetes/
+│
+├── monitoring/
+│   ├── prometheus/
+│   ├── grafana/
+│   └── loki/
+│
+├── docs/
+│   ├── architecture/
+│   ├── deployment/
+│   ├── runbooks/
+│   └── api/
+│
+├── .github/
+│   └── workflows/
+│       ├── api-ci.yml
+│       ├── web-ci.yml
+│       ├── security-scan.yml
+│       └── deploy.yml
+│
+├── scripts/
+│   ├── setup-local.sh
+│   ├── test-all.sh
+│   └── lint-all.sh
+│
+├── tests/
+│   ├── e2e/
+│   └── smoke/
+│
+├── .editorconfig
+├── .gitignore
+├── Makefile
+├── README.md
+└── LICENSE

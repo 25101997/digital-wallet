@@ -1,0 +1,1 @@
+docker exec -it -u 0 database-container /bin/bash

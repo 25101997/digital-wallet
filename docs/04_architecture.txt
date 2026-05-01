@@ -1,0 +1,37 @@
+tabla imgresos
+        prodencia = banco industrial
+        descripcion = primera quincena, segunda quincena
+        mes
+        fecha_ingreso
+        destino cuentas
+
+tabla procedencia:
+        empresa
+
+tabla cuentas
+        nombre
+        descripcion
+
+tabla salidas
+cuenta
+tipo de gasto
+
+
+tabla: tipo de gasto
+ahorro 
+iva 
+igss 
+almuerzos
+cenas
+desayunos
+gasolina
+moto nueva
+
+campos nombre maximo fecha de ingreso, fecha de modificacion
+
+boton ingresar redondear
+
+bitacora 
+
+
+    

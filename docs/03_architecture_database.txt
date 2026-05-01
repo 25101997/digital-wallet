@@ -1,0 +1,80 @@
+database/
+├── migrations/
+│   ├── 001_initial_schema.sql
+│   ├── 002_add_indexes.sql
+│   ├── 003_update_loans_table.sql
+│   └── 004_add_audit_columns.sql
+│
+├── schema/
+│   ├── tables/
+│   │   ├── student.sql
+│   │   ├── book.sql
+│   │   ├── loan.sql
+│   │   └── author.sql
+│   │
+│   ├── constraints/
+│   │   ├── fk_loan_student.sql
+│   │   ├── fk_loan_book.sql
+│   │   └── ck_loan_dates.sql
+│   │
+│   ├── indexes/
+│   │   ├── ix_book_title.sql
+│   │   ├── ix_student_email.sql
+│   │   └── ix_loan_return_date.sql
+│   │
+│   ├── views/
+│   │   ├── vw_active_loans.sql
+│   │   └── vw_book_availability.sql
+│   │
+│   ├── functions/
+│   │   ├── fn_calculate_fine.sql
+│   │   └── fn_student_active_loans.sql
+│   │
+│   ├── procedures/
+│   │   ├── usp_create_loan.sql
+│   │   ├── usp_return_loan.sql
+│   │   ├── usp_get_books.sql
+│   │   └── usp_get_top_students.sql
+│   │
+│   └── triggers/
+│       ├── trg_loan_audit.sql
+│       └── trg_book_stock_update.sql
+│
+├── seeds/
+│   ├── dev/
+│   │   ├── 001_roles.sql
+│   │   ├── 002_sample_students.sql
+│   │   └── 003_sample_books.sql
+│   │
+│   ├── test/
+│   │   └── 001_test_data.sql
+│   │
+│   └── demo/
+│       └── 001_demo_data.sql
+│
+├── security/
+│   ├── users/
+│   │   ├── create_app_user.sql
+│   │   └── create_readonly_user.sql
+│   │
+│   ├── roles/
+│   │   ├── role_app_executor.sql
+│   │   └── role_reporting.sql
+│   │
+│   └── permissions/
+│       ├── grant_app_permissions.sql
+│       └── grant_reporting_permissions.sql
+│
+├── scripts/
+│   ├── create_database.sql
+│   ├── drop_database.sql
+│   ├── reset_database.sql
+│   ├── run_all.sql
+│   └── verify_objects.sql
+│
+├── docs/
+│   ├── erd/
+│   ├── dictionary/
+│   └── conventions.md
+│
+└── README.md
