@@ -76,6 +76,7 @@ git commit -m "feat: agregar login con JWT"
 Integrar ramas en develop
 bash
 
+git checkout -b develop
 git checkout develop
 git pull origin develop
 git merge feature/login
