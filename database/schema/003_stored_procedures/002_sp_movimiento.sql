@@ -64,6 +64,93 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- ==========================================
+-- Procedimiento: Obtener movimiento por id
+-- ==========================================
+CREATE OR REPLACE FUNCTION dw.consultar_movimientos_por_id(
+    p_id_movimiento INT
+) RETURNS TABLE(
+    id_movimiento INT,
+    id_cuenta INT,
+    nombre_cuenta VARCHAR,
+    tipo VARCHAR,
+    monto NUMERIC(14,2),
+    descripcion VARCHAR,
+    mes INT,
+    anio INT,
+    via VARCHAR,
+    id_cuenta_origen INT,
+    nombre_cuenta_origen VARCHAR,
+    id_cuenta_destino INT,
+    nombre_cuenta_destino VARCHAR,
+    created TIMESTAMP,
+    updated TIMESTAMP
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        m.id_movimiento,
+        m.id_cuenta,
+        cp.nombre AS nombre_cuenta,
+        m.tipo,
+        m.monto,
+        m.descripcion,
+        m.mes,
+        m.anio,
+        m.via,
+        m.id_cuenta_origen,
+        co.nombre AS nombre_cuenta_origen,
+        m.id_cuenta_destino,
+        cd.nombre AS nombre_cuenta_destino,
+        m.created,
+        m.updated
+    FROM dw.movimiento m
+    JOIN dw.cuenta cp ON m.id_cuenta = cp.id_cuenta
+    LEFT JOIN dw.cuenta co ON m.id_cuenta_origen = co.id_cuenta
+    LEFT JOIN dw.cuenta cd ON m.id_cuenta_destino = cd.id_cuenta
+    WHERE m.id_movimiento = p_id_movimiento
+    ORDER BY m.created DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ==========================================
+-- Procedimiento: Obtener movimientos
+-- ==========================================
+CREATE OR REPLACE FUNCTION dw.consultar_movimientos() 
+	RETURNS TABLE(
+    id_movimiento INT,
+    id_cuenta INT,
+    tipo VARCHAR,
+    monto NUMERIC(14,2),
+    descripcion VARCHAR,
+    mes INT,
+    anio INT,
+    via VARCHAR,
+    id_cuenta_origen INT,
+    id_cuenta_destino INT,
+    created TIMESTAMP,
+    updated TIMESTAMP
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        m.id_movimiento,
+        m.id_cuenta,
+        m.tipo,
+        m.monto,
+        m.descripcion,
+        m.mes,
+        m.anio,
+        m.via,
+        m.id_cuenta_origen,
+        m.id_cuenta_destino,
+        m.created,
+        m.updated
+    FROM dw.movimiento m
+    ORDER BY m.created DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ==========================================
 -- Procedimiento: Consultar movimientos por cuenta
 -- ==========================================
 CREATE OR REPLACE FUNCTION dw.consultar_movimientos_por_cuenta(

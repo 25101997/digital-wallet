@@ -43,8 +43,8 @@ WHERE n.nspname = 'dw'
 --SELECT * FROM dw.movimiento;
 
 -- Consultar todos los saldos de cuentas
-SELECT * FROM dw.consultar_saldos();
+--SELECT * FROM dw.consultar_saldos();
 
 --SELECT dw.transferir(2, 9, 225, 'Transferencia para gastos');
 
-SELECT * FROM dw.consultar_movimientos_por_cuenta(2);
+--SELECT * FROM dw.consultar_movimientos_por_cuenta(2);

@@ -2,6 +2,10 @@ CREATE OR REPLACE FUNCTION dw.consultar_saldos()
 RETURNS TABLE(
     id_cuenta INT,
     nombre VARCHAR,
+	tipo  VARCHAR,
+	activa BOOLEAN,
+	created TIMESTAMP,
+	updated TIMESTAMP,
     saldo_actual NUMERIC
 ) AS $$
 BEGIN
@@ -9,6 +13,10 @@ BEGIN
     SELECT 
         c.id_cuenta,
         c.nombre,
+		c.tipo,
+		c.activa,
+		c.created,
+		c.updated,
         COALESCE(SUM(
             CASE 
                 WHEN m.tipo = 'acreditar' THEN m.monto
