@@ -14,12 +14,28 @@ DECLARE
     v_id INT;
 BEGIN
     INSERT INTO dw.movimiento(
-        id_cuenta, tipo, monto, descripcion, mes, anio, via, created, updated
+        id_cuenta, 
+        tipo, 
+        monto, 
+        descripcion, 
+        mes, 
+        anio, 
+        via, 
+        created, 
+        updated
     )
     VALUES (
-        p_id_cuenta, p_tipo, p_monto, p_descripcion, p_mes, p_anio, p_via, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+        p_id_cuenta, 
+        p_tipo, 
+        p_monto, 
+        p_descripcion, 
+        p_mes, 
+        p_anio, 
+        p_via, 
+        CURRENT_TIMESTAMP, 
+        CURRENT_TIMESTAMP
     )
-    RETURNING id INTO v_id;
+    RETURNING id_movimiento INTO v_id;
 
     RETURN v_id;
 END;
