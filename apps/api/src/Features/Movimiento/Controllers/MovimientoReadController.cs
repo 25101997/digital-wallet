@@ -42,8 +42,6 @@ public class MovimientoReadController : ControllerBase
                     Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion"))
                         ? null
                         : reader.GetString(reader.GetOrdinal("descripcion")),
-                    Mes = reader.IsDBNull(reader.GetOrdinal("mes")) ? 0 : reader.GetInt32(reader.GetOrdinal("mes")),
-                    Anio = reader.IsDBNull(reader.GetOrdinal("anio")) ? 0 : reader.GetInt32(reader.GetOrdinal("anio")),
                     Via = reader.GetString(reader.GetOrdinal("via")),
                     IdCuentaOrigen = reader.IsDBNull(reader.GetOrdinal("id_cuenta_origen"))
                         ? null
@@ -101,8 +99,6 @@ public class MovimientoReadController : ControllerBase
                 Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion"))
                     ? null
                     : reader.GetString(reader.GetOrdinal("descripcion")),
-                Mes = reader.IsDBNull(reader.GetOrdinal("mes")) ? 0 : reader.GetInt32(reader.GetOrdinal("mes")),
-                Anio = reader.IsDBNull(reader.GetOrdinal("anio")) ? 0 : reader.GetInt32(reader.GetOrdinal("anio")),
                 Via = reader.GetString(reader.GetOrdinal("via")),
                 IdCuentaOrigen = reader.IsDBNull(reader.GetOrdinal("id_cuenta_origen"))
                     ? null
@@ -164,8 +160,6 @@ public class MovimientoReadController : ControllerBase
                     Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion"))
                         ? null
                         : reader.GetString(reader.GetOrdinal("descripcion")),
-                    Mes = reader.IsDBNull(reader.GetOrdinal("mes")) ? 0 : reader.GetInt32(reader.GetOrdinal("mes")),
-                    Anio = reader.IsDBNull(reader.GetOrdinal("anio")) ? 0 : reader.GetInt32(reader.GetOrdinal("anio")),
                     Via = reader.GetString(reader.GetOrdinal("via")),
                     IdCuentaOrigen = reader.IsDBNull(reader.GetOrdinal("id_cuenta_origen"))
                         ? null

@@ -8,9 +8,6 @@ CREATE TABLE dw.movimiento (
 
     descripcion VARCHAR(255),
 
-    mes INT,
-    anio INT,
-
     via VARCHAR(50) NOT NULL,
 
     id_cuenta_origen INT,
@@ -36,12 +33,6 @@ CREATE TABLE dw.movimiento (
 
     CONSTRAINT chk_movimiento_monto
         CHECK (monto > 0),
-
-    CONSTRAINT chk_movimiento_mes
-        CHECK (mes BETWEEN 1 AND 12),
-
-    CONSTRAINT chk_movimiento_anio
-        CHECK (anio BETWEEN 2000 AND 2100),
 
     CONSTRAINT chk_movimiento_via
         CHECK (via IN ('efectivo', 'transferencia', 'deposito', 'retiro', 'ajuste'))

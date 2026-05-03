@@ -1,14 +1,9 @@
 namespace Features.Movimiento.DTOs;
 
-public class MovimientoUpdateDTO
+public class TransferenciaCreateDTO
 {
     public int IdCuenta { get; set; }
-
-    public string Tipo { get; set; } = string.Empty;
-
+    public int IdCuentaDestino { get; set; }
     public decimal Monto { get; set; }
-
     public string? Descripcion { get; set; }
-
-    public string Via { get; set; } = string.Empty;
 }

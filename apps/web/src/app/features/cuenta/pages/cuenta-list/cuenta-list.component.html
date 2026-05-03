@@ -1,0 +1,55 @@
+<section class="page">
+  <div class="header">
+    <div>
+      <h1>Cuentas</h1>
+    </div>
+
+    <a routerLink="/cuentas/nueva" class="btn primary">
+      Nueva cuenta
+    </a>
+  </div>
+
+  <div *ngIf="cargando" class="info">
+    Cargando cuentas...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="table-card" *ngIf="!cargando">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Saldo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let cuenta of cuentas">
+          <td>{{ cuenta.idCuenta }}</td>
+          <td>{{ cuenta.nombre }}</td>
+          <td>{{ cuenta.tipo }}</td>
+          <td>Q {{ obtenerSaldo(cuenta.idCuenta) | number:'1.2-2' }}</td>
+          <td class="actions">
+            <a [routerLink]="['/cuentas/editar', cuenta.idCuenta]" class="btn small">
+              Editar
+            </a>
+
+            <a [routerLink]="['/movimientos/cuenta', cuenta.idCuenta]" class="btn small">
+              Movimientos
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="cuentas.length === 0" class="empty">
+      No hay cuentas registradas.
+    </div>
+  </div>
+</section>

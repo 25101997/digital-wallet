@@ -6,8 +6,6 @@ CREATE OR REPLACE FUNCTION dw.crear_movimiento(
     p_tipo VARCHAR,
     p_monto NUMERIC,
     p_descripcion VARCHAR,
-    p_mes INT,
-    p_anio INT,
     p_via VARCHAR
 ) RETURNS INT AS $$
 DECLARE
@@ -18,8 +16,6 @@ BEGIN
         tipo, 
         monto, 
         descripcion, 
-        mes, 
-        anio, 
         via, 
         created, 
         updated
@@ -29,8 +25,6 @@ BEGIN
         p_tipo, 
         p_monto, 
         p_descripcion, 
-        p_mes, 
-        p_anio, 
         p_via, 
         CURRENT_TIMESTAMP, 
         CURRENT_TIMESTAMP
@@ -50,8 +44,6 @@ CREATE OR REPLACE FUNCTION dw.actualizar_movimiento(
     p_tipo VARCHAR,
     p_monto NUMERIC,
     p_descripcion VARCHAR,
-    p_mes INT,
-    p_anio INT,
     p_via VARCHAR
 ) RETURNS VOID AS $$
 BEGIN
@@ -60,22 +52,9 @@ BEGIN
         tipo = p_tipo,
         monto = p_monto,
         descripcion = p_descripcion,
-        mes = p_mes,
-        anio = p_anio,
         via = p_via,
         updated = CURRENT_TIMESTAMP
     WHERE id_movimiento = p_id_movimiento;
-END;
-$$ LANGUAGE plpgsql;
-
--- ==========================================
--- Procedimiento: Eliminar movimiento
--- ==========================================
-CREATE OR REPLACE FUNCTION dw.eliminar_movimiento(
-    p_id_movimiento INT
-) RETURNS VOID AS $$
-BEGIN
-    DELETE FROM dw.movimiento WHERE id_movimiento = p_id_movimiento;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -91,8 +70,6 @@ CREATE OR REPLACE FUNCTION dw.consultar_movimientos_por_id(
     tipo VARCHAR,
     monto NUMERIC(14,2),
     descripcion VARCHAR,
-    mes INT,
-    anio INT,
     via VARCHAR,
     id_cuenta_origen INT,
     nombre_cuenta_origen VARCHAR,
@@ -110,8 +87,6 @@ BEGIN
         m.tipo,
         m.monto,
         m.descripcion,
-        m.mes,
-        m.anio,
         m.via,
         m.id_cuenta_origen,
         co.nombre AS nombre_cuenta_origen,
@@ -138,8 +113,6 @@ CREATE OR REPLACE FUNCTION dw.consultar_movimientos()
     tipo VARCHAR,
     monto NUMERIC(14,2),
     descripcion VARCHAR,
-    mes INT,
-    anio INT,
     via VARCHAR,
     id_cuenta_origen INT,
     id_cuenta_destino INT,
@@ -154,8 +127,6 @@ BEGIN
         m.tipo,
         m.monto,
         m.descripcion,
-        m.mes,
-        m.anio,
         m.via,
         m.id_cuenta_origen,
         m.id_cuenta_destino,
@@ -177,8 +148,6 @@ CREATE OR REPLACE FUNCTION dw.consultar_movimientos_por_cuenta(
     tipo VARCHAR,
     monto NUMERIC(14,2),
     descripcion VARCHAR,
-    mes INT,
-    anio INT,
     via VARCHAR,
     id_cuenta_origen INT,
     nombre_cuenta_origen VARCHAR,
@@ -195,8 +164,6 @@ BEGIN
         m.tipo,
         m.monto,
         m.descripcion,
-        m.mes,
-        m.anio,
         m.via,
         m.id_cuenta_origen,
         co.nombre AS nombre_cuenta_origen,
@@ -213,3 +180,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- ==========================================
+-- Procedimiento: Eliminar movimiento
+-- ==========================================
+CREATE OR REPLACE FUNCTION dw.eliminar_movimiento(
+    p_id_movimiento INT
+) RETURNS VOID AS $$
+BEGIN
+    DELETE FROM dw.movimiento WHERE id_movimiento = p_id_movimiento;
+END;
+$$ LANGUAGE plpgsql;

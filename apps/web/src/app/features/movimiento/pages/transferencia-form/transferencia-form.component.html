@@ -1,0 +1,74 @@
+<section class="page">
+  <div class="header">
+    <div>
+      <h1>{{'Nueva Transferencia' }}</h1>
+      <p>{{ 'Registra una nueva transferencia.' }}</p>
+    </div>
+
+    <a routerLink="/movimientos" class="btn">
+      Volver
+    </a>
+  </div>
+
+  <div *ngIf="cargando" class="info">
+    Cargando información...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" class="form-card" *ngIf="!cargando">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Cuenta Origen</label>
+        <select formControlName="idCuenta" disable>
+          <option [ngValue]="null">Seleccione una cuenta</option>
+          <option *ngFor="let cuenta of cuentas" [ngValue]="cuenta.idCuenta">
+            {{ cuenta.nombre }} - {{ cuenta.tipo }}
+          </option>
+        </select>
+
+        <small *ngIf="campoInvalido('idCuenta')">
+          La cuenta es obligatoria.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Cuenta Destino</label>
+        <select formControlName="idCuentaDestino">
+          <option [ngValue]="null">Seleccione una cuenta</option>
+          <option *ngFor="let cuenta of cuentas" [ngValue]="cuenta.idCuenta">
+            {{ cuenta.nombre }} - {{ cuenta.tipo }}
+          </option>
+        </select>
+
+        <small *ngIf="campoInvalido('idCuenta')">
+          La cuenta es obligatoria.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Monto</label>
+        <input type="number" step="0.01" min="0.01" formControlName="monto" placeholder="0.00" />
+
+        <small *ngIf="campoInvalido('monto')">
+          El monto debe ser mayor a 0.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea formControlName="descripcion" rows="3" placeholder="Descripción del movimiento"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn primary" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+
+      <a routerLink="/movimientos" class="btn">Cancelar</a>
+    </div>
+  </form>
+</section>

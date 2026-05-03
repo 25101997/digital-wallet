@@ -1,0 +1,98 @@
+<section class="page">
+  <div class="header">
+    <div>
+      <h1>Movimientos <span *ngIf="nombreCuenta">{{nombreCuenta}}</span></h1>
+    </div>
+
+    <div class="header-actions">
+      <a routerLink="" [routerLink]="['/movimientos/transferencia', idCuenta]" class="btn purple">
+        Transferir
+      </a>
+      <a routerLink="" [routerLink]="['/movimientos/crear', idCuenta]" class="btn primary">
+        Nuevo movimiento
+      </a>
+      <a routerLink="/cuentas" class="btn">
+        Cuentas
+      </a>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div>
+      <span>Acreditado</span>
+      <strong>Q {{ totalAcreditado | number:'1.2-2' }}</strong>
+    </div>
+
+    <div>
+      <span>Debitado</span>
+      <strong>Q {{ totalDebitado | number:'1.2-2' }}</strong>
+    </div>
+
+    <div>
+      <span>Saldo</span>
+      <strong>Q {{ saldo | number:'1.2-2' }}</strong>
+    </div>
+  </div>
+
+  <div *ngIf="cargando" class="info">
+    Cargando movimientos...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="table-card" *ngIf="!cargando">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cuenta</th>
+          <th>Tipo</th>
+          <th>Monto</th>
+          <th>Descripción</th>
+          <th>Origen</th>
+          <th>Destino</th>
+          <th>Vía</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let mov of movimientos">
+          <td>{{ mov.idMovimiento }}</td>
+          <td>{{ mov.nombreCuenta}}</td>
+          <td>
+            <span [class.credito]="mov.tipo === 'acreditar'" [class.debito]="mov.tipo === 'debitar'">
+              {{ mov.tipo }}
+            </span>
+          </td>
+          <td>Q {{ mov.monto | number:'1.2-2' }}</td>
+          <td>{{ mov.descripcion ?? '-' }}</td>
+          <td>{{ mov.nombreCuentaOrigen ?? '-' }}</td>
+          <td>{{ mov.nombreCuentaDestino ?? '-' }}</td>
+          <td>{{ mov.via }}</td>
+          <td>{{ mov.created | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td class="actions">
+            <a 
+              [routerLink]="['/movimientos/editar', mov.idMovimiento]" 
+              class="btn small"
+              *ngIf="mov.via !== 'transferencia'">
+              Editar
+            </a>
+            <a 
+              class="btn small"
+              *ngIf="mov.via == 'transferencia'">
+              ------
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="movimientos.length === 0" class="empty">
+      No hay movimientos registrados.
+    </div>
+  </div>
+</section>

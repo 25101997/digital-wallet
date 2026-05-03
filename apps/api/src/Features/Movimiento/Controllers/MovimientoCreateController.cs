@@ -31,12 +31,6 @@ public class MovimientoCreateController : ControllerBase
         if (dto.Monto <= 0)
             return BadRequest(new { mensaje = "El monto debe ser mayor a 0." });
 
-        if (dto.Mes.HasValue && (dto.Mes.Value < 1 || dto.Mes.Value > 12))
-            return BadRequest(new { mensaje = "El mes debe estar entre 1 y 12." });
-
-        if (dto.Anio.HasValue && (dto.Anio.Value < 2000 || dto.Anio.Value > 2100))
-            return BadRequest(new { mensaje = "El año debe estar entre 2000 y 2100." });
-
         if (string.IsNullOrWhiteSpace(dto.Via))
             return BadRequest(new { mensaje = "La vía del movimiento es obligatoria." });
 
@@ -51,8 +45,6 @@ public class MovimientoCreateController : ControllerBase
                     @p_tipo,
                     @p_monto,
                     @p_descripcion,
-                    @p_mes,
-                    @p_anio,
                     @p_via
                 );
             ";
@@ -63,8 +55,6 @@ public class MovimientoCreateController : ControllerBase
             command.Parameters.AddWithValue("@p_tipo", dto.Tipo.Trim());
             command.Parameters.AddWithValue("@p_monto", dto.Monto);
             command.Parameters.AddWithValue("@p_descripcion", (object?)dto.Descripcion ?? DBNull.Value);
-            command.Parameters.AddWithValue("@p_mes", (object?)dto.Mes ?? DBNull.Value);
-            command.Parameters.AddWithValue("@p_anio", (object?)dto.Anio ?? DBNull.Value);
             command.Parameters.AddWithValue("@p_via", dto.Via.Trim());
 
             var result = await command.ExecuteScalarAsync();

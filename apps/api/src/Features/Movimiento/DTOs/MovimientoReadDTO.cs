@@ -14,10 +14,6 @@ public class MovimientoReadDTO
 
     public string? Descripcion { get; set; }
 
-    public int Mes { get; set; }
-
-    public int Anio { get; set; }
-
     public string Via { get; set; } = string.Empty;
 
     public int? IdCuentaOrigen { get; set; }
