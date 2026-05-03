@@ -14,7 +14,7 @@ import {
   providedIn: 'root'
 })
 export class MovimientoService {
-  private readonly baseUrl = `http://192.168.1.196:8080/api/movimientos`;
+  private readonly baseUrl = `/api/movimientos`;
 
   constructor(private readonly http: HttpClient) {}
 

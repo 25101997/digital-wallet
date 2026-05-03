@@ -7,7 +7,7 @@ import { Cuenta, CuentaCreate, CuentaSaldo, CuentaUpdate } from '../models/cuent
   providedIn: 'root'
 })
 export class CuentaService {
-  private readonly apiUrl = 'http://localhost:8080/api';
+  private readonly apiUrl = '/api';
 
   constructor(private http: HttpClient) {}
   

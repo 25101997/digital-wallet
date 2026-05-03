@@ -5,9 +5,6 @@ INSERT INTO dw.cuenta (nombre, tipo, activa)
 VALUES ('Banrural', 'monetaria', TRUE);
 
 INSERT INTO dw.cuenta (nombre, tipo, activa)
-VALUES ('G & T', 'ahorro', TRUE);
-
-INSERT INTO dw.cuenta (nombre, tipo, activa)
 VALUES ('Ahorro Local', 'ahorro', TRUE);
 
 INSERT INTO dw.cuenta (nombre, tipo, activa)

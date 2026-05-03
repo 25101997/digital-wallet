@@ -127,7 +127,7 @@ export class MovimientoFormComponent implements OnInit {
     peticion.subscribe({
       next: () => {
         this.guardando = false;
-        this.router.navigate(['/movimientos']);
+        this.router.navigate([`/movimientos/cuenta/${data.idCuenta}`]);
       },
       error: (err) => {
         console.error(err);
