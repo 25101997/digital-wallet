@@ -1,0 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS auth;
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+ALTER ROLE app_user SET search_path TO auth;
