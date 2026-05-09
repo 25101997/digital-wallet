@@ -45,3 +45,17 @@ docker compose --env-file .env -f docker-compose.dev.yml up -d
 mkdir -p deploy/nginx/ssl
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048   -keyout deploy/nginx/ssl/key.pem   -out deploy/nginx/ssl/cert.pem
+
+
+# produccion
+docker save digital-wallet-api | gzip > api.tar.gz
+docker save digital-wallet-web | gzip > web.tar.gz
+
+scp api.tar.gz usuario@ip_del_servidor:/home/usuario/
+scp web.tar.gz usuario@ip_del_servidor:/home/usuario/
+
+gunzip -c api.tar.gz | docker load
+gunzip -c web.tar.gz | docker load
+
+docker compose --env-file .env -f docker-compose.prod.yml up -d
+

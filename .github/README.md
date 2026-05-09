@@ -90,6 +90,18 @@ git pull origin main
 git merge develop
 git push origin main
 
+
+# Crear versiones
+
+git status
+git add .
+git commit -m "chore: stable version before auth service"
+git push origin main
+git tag -a v1.0.0 -m "Stable version without auth service"
+git push origin v1.0.0
+git push origin --tags
+
+
     ✅ Recomendación: usar Pull Requests (PRs) en GitHub para revisión de código antes de hacer merge a develop o main.
 
 📌 Buenas prácticas
