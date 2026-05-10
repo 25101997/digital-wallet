@@ -1,0 +1,14 @@
+FROM golang:1.25-alpine
+
+WORKDIR /auth
+
+RUN apk add --no-cache git postgresql-client
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+
+EXPOSE 8081
+
+CMD ["go", "run", "./cmd/auth-service"]

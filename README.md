@@ -21,7 +21,7 @@ docker compose --env-file .env -f docker-compose.prod.yml down -v
 docker compose --env-file .env -f docker-compose.prod.yml up -d --build
 
 # si solo se quiere levantar 
-docker compose --env-file .env -f docker-compose.prod.yml up -d
+docker compose --env-file ../../.env -f docker-compose.prod.yml up -d
 
 docker compose --env-file .env -f docker-compose.prod.yml ps
 docker compose --env-file .env -f docker-compose.prod.yml logs -f
@@ -39,8 +39,8 @@ docker compose -f docker-compose.dev.yml up -d
 docker compose -f docker-compose.dev.yml up
 
 # si se quiere ocultar logs 
-docker compose --env-file .env -f docker-compose.dev.yml up -d --build
-docker compose --env-file .env -f docker-compose.dev.yml up -d
+docker compose --env-file ../../.env -f docker-compose.dev.yml up -d --build
+docker compose --env-file ../../.env -f docker-compose.dev.yml up -d
 
 mkdir -p deploy/nginx/ssl
 
