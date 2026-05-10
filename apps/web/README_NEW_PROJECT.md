@@ -30,7 +30,7 @@ npm install
 npx ng serve --host 0.0.0.0 --port 4200
 
 
-
+#en desarrollo Angular debe arrancar con proxy
 
 
 
