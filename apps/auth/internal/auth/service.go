@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"errors"
 	"strings"
 )
 
@@ -20,19 +19,11 @@ func NewService(repository *Repository, jwtService *JWTService) *Service {
 
 func (s *Service) Register(ctx context.Context, req RegisterRequest) (RegisterResponse, error) {
 	req.Username = strings.TrimSpace(req.Username)
-	req.Email = strings.TrimSpace(req.Email)
+	req.Email = strings.TrimSpace(strings.ToLower(req.Email))
 	req.FullName = strings.TrimSpace(req.FullName)
 
-	if req.Username == "" {
-		return RegisterResponse{}, errors.New("el username es obligatorio")
-	}
-
-	if req.Email == "" {
-		return RegisterResponse{}, errors.New("el email es obligatorio")
-	}
-
-	if len(req.Password) < 8 {
-		return RegisterResponse{}, errors.New("la contraseña debe tener al menos 8 caracteres")
+	if err := validateRegisterRequest(req); err != nil {
+		return RegisterResponse{}, err
 	}
 
 	passwordHash, err := HashPassword(req.Password)
@@ -54,27 +45,23 @@ func (s *Service) Register(ctx context.Context, req RegisterRequest) (RegisterRe
 }
 
 func (s *Service) Login(ctx context.Context, req LoginRequest) (LoginResponse, error) {
-	req.UsernameOrEmail = strings.TrimSpace(req.UsernameOrEmail)
+	req.UsernameOrEmail = strings.TrimSpace(strings.ToLower(req.UsernameOrEmail))
 
-	if req.UsernameOrEmail == "" {
-		return LoginResponse{}, errors.New("usuario o email es obligatorio")
-	}
-
-	if req.Password == "" {
-		return LoginResponse{}, errors.New("la contraseña es obligatoria")
+	if err := validateLoginRequest(req); err != nil {
+		return LoginResponse{}, err
 	}
 
 	user, err := s.repository.FindByUsernameOrEmail(ctx, req.UsernameOrEmail)
 	if err != nil {
-		return LoginResponse{}, errors.New("credenciales inválidas")
+		return LoginResponse{}, ErrInvalidCredentials
 	}
 
 	if !user.IsActive {
-		return LoginResponse{}, errors.New("el usuario está inactivo")
+		return LoginResponse{}, ErrUserInactive
 	}
 
 	if !CheckPassword(req.Password, user.PasswordHash) {
-		return LoginResponse{}, errors.New("credenciales inválidas")
+		return LoginResponse{}, ErrInvalidCredentials
 	}
 
 	token, expiresIn, err := s.jwtService.GenerateAccessToken(user)

@@ -20,7 +20,6 @@ go get github.com/jackc/pgx/v5/pgxpool
 go get github.com/golang-jwt/jwt/v5
 go get golang.org/x/crypto/bcrypt
 
-
 /auth # 
 APP_ENV=development \
 SERVER_PORT=8081 \
@@ -38,3 +37,8 @@ go run ./cmd/auth-service
 2026/05/09 20:27:39 auth-service running on port 8081
 
 curl http://localhost:8081/auth/health
+
+
+docker run -it --rm   --name auth-dev   -v "$PWD":/auth   -w /auth   -p 8081:8081 --network digital-wallet-network   --env-file ../../.env   golang:1.25-alpine   sh
+
+go run ./cmd/auth-service

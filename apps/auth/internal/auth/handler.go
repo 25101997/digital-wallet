@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -25,7 +26,7 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 
 	response, err := h.service.Register(r.Context(), req)
 	if err != nil {
-		writeError(w, http.StatusBadRequest, err.Error())
+		handleAuthError(w, err)
 		return
 	}
 
@@ -42,17 +43,44 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 
 	response, err := h.service.Login(r.Context(), req)
 	if err != nil {
-		writeError(w, http.StatusUnauthorized, err.Error())
+		handleAuthError(w, err)
 		return
 	}
 
 	writeJSON(w, http.StatusOK, response)
 }
 
+func handleAuthError(w http.ResponseWriter, err error) {
+	switch {
+	case errors.Is(err, ErrUsernameRequired),
+		errors.Is(err, ErrEmailRequired),
+		errors.Is(err, ErrPasswordRequired),
+		errors.Is(err, ErrUsernameOrEmailNeeded),
+		errors.Is(err, ErrWeakPassword):
+		writeError(w, http.StatusBadRequest, err.Error())
+
+	case errors.Is(err, ErrUsernameAlreadyExists),
+		errors.Is(err, ErrEmailAlreadyExists):
+		writeError(w, http.StatusConflict, err.Error())
+
+	case errors.Is(err, ErrInvalidCredentials):
+		writeError(w, http.StatusUnauthorized, err.Error())
+
+	case errors.Is(err, ErrUserInactive):
+		writeError(w, http.StatusForbidden, err.Error())
+
+	default:
+		writeError(w, http.StatusInternalServerError, "error interno del servidor")
+	}
+}
+
 func writeJSON(w http.ResponseWriter, statusCode int, data any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(data)
+
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		http.Error(w, "error al generar respuesta", http.StatusInternalServerError)
+	}
 }
 
 func writeError(w http.ResponseWriter, statusCode int, message string) {

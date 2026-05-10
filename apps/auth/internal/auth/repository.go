@@ -2,7 +2,9 @@ package auth
 
 import (
 	"context"
+	"errors"
 
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -56,7 +58,11 @@ func (r *Repository) CreateUser(ctx context.Context, req RegisterRequest, passwo
 		&user.UpdatedAt,
 	)
 
-	return user, err
+	if err != nil {
+		return User{}, mapPostgresError(err)
+	}
+
+	return user, nil
 }
 
 func (r *Repository) FindByUsernameOrEmail(ctx context.Context, usernameOrEmail string) (User, error) {
@@ -93,4 +99,23 @@ func (r *Repository) FindByUsernameOrEmail(ctx context.Context, usernameOrEmail 
 	)
 
 	return user, err
+}
+
+func mapPostgresError(err error) error {
+	var pgErr *pgconn.PgError
+
+	if errors.As(err, &pgErr) {
+		if pgErr.Code == "23505" {
+			switch pgErr.ConstraintName {
+			case "uq_auth_users_username":
+				return ErrUsernameAlreadyExists
+			case "uq_auth_users_email":
+				return ErrEmailAlreadyExists
+			default:
+				return errors.New("registro duplicado")
+			}
+		}
+	}
+
+	return err
 }

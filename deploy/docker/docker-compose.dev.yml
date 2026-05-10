@@ -55,6 +55,37 @@ services:
     networks:
       - app-network
 
+  auth:
+    build:
+      context: ../../apps/auth
+      dockerfile: Dockerfile.dev
+    container_name: ${COMPOSE_PROJECT_NAME}-auth
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      APP_ENV: development
+      SERVER_PORT: 8081
+
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_SSL_MODE: disable
+
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_AUDIENCE: ${JWT_AUDIENCE}
+      JWT_ACCESS_MINUTES: ${JWT_ACCESS_MINUTES}
+    volumes:
+      - ../../apps/auth:/auth
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+   
 volumes:
   postgres-data:
     name: ${COMPOSE_PROJECT_NAME}-postgres-data
