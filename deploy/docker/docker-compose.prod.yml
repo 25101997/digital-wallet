@@ -48,7 +48,7 @@ services:
       - "${AUTH_PORT}:8081"
     environment:
       APP_ENV: ${APP_ENV}
-      SERVER_PORT: ${SERVER_PORT}
+      SERVER_PORT: ${AUTH_PORT}
 
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
