@@ -42,6 +42,36 @@ docker compose -f docker-compose.dev.yml up
 docker compose --env-file ../../.env -f docker-compose.dev.yml up -d --build
 docker compose --env-file ../../.env -f docker-compose.dev.yml up -d
 
+# solo para levantar sin contruir y ver logs en el momento.
+docker compose --env-file ../../.env -f docker-compose.dev.yml up
+
 mkdir -p deploy/nginx/ssl
 
 openssl req -x509 -nodes -days 365 -newkey rsa:2048   -keyout deploy/nginx/ssl/key.pem   -out deploy/nginx/ssl/cert.pem
+
+
+# Restaurar bdd de produccion en desarrollo
+  # Paso 1: crear el backup
+    docker ps
+    ver nombre del contenedor de bdd
+
+    docker exec -t digital-wallet-db \
+    pg_dump \
+    --no-owner \
+    --no-privileges \
+    -U usuario \
+    -d digital-wallet-db \
+    > digital-wallet-prod.sql
+
+  # Paso 2: desde el servidor de desarrollo
+    dlopez@dlopez:~/Repos/digital-wallet/deploy/docker$ docker compose --env-file ../../.env -f docker-compose.dev.yml down
+
+    docker volume rm digital-wallet-postgres-data
+
+    docker volume ls | grep digital-wallet
+
+    dlopez@dlopez:~/Repos/digital-wallet/deploy/docker$ docker compose --env-file ../../.env -f docker-compose.dev.yml up
+
+    dlopez@dlopez:~/Repos/digital-wallet/deploy/docker$ cat digital-wallet-prod.sql | docker exec -i digital-wallet-db   psql -U app_user -d digital-wallet-db
+
+
