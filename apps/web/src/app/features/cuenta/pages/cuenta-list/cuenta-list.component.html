@@ -1,55 +1,373 @@
 <section class="page">
+
   <div class="header">
     <div>
       <h1>Cuentas</h1>
+      <p>
+        Consulta el saldo y distribución de tus cuentas.
+      </p>
     </div>
 
-    <a routerLink="/cuentas/nueva" class="btn primary">
+    <a
+      routerLink="/cuentas/nueva"
+      class="btn primary">
       Nueva cuenta
     </a>
   </div>
 
-  <div *ngIf="cargando" class="info">
+  <div
+    *ngIf="cargando"
+    class="info">
     Cargando cuentas...
   </div>
 
-  <div *ngIf="error" class="error">
+  <div
+    *ngIf="error"
+    class="error">
     {{ error }}
   </div>
 
-  <div class="table-card" *ngIf="!cargando">
+
+  <!-- RESUMEN -->
+  <div
+    class="account-summary"
+    *ngIf="!cargando">
+
+    <button
+      type="button"
+      class="summary-card total-card"
+      (click)="aplicarFiltroTipo('')">
+
+      <span>Total cuentas</span>
+
+      <strong>
+        Q {{ totalGeneral | number:'1.2-2' }}
+      </strong>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="summary-card"
+      (click)="aplicarFiltroTipo('monetaria')">
+
+      <span>Monetarias</span>
+
+      <strong>
+        Q {{ totalPorTipo('monetaria') | number:'1.2-2' }}
+      </strong>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="summary-card"
+      (click)="aplicarFiltroTipo('ahorro')">
+
+      <span>Ahorro</span>
+
+      <strong>
+        Q {{ totalPorTipo('ahorro') | number:'1.2-2' }}
+      </strong>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="summary-card"
+      (click)="aplicarFiltroTipo('efectivo')">
+
+      <span>Efectivo</span>
+
+      <strong>
+        Q {{ totalPorTipo('efectivo') | number:'1.2-2' }}
+      </strong>
+
+    </button>
+
+  </div>
+
+
+  <!-- FILTROS -->
+  <div
+    class="filters-card"
+    *ngIf="!cargando">
+
+    <div class="filters-grid">
+
+      <div class="filter-group">
+
+        <label>
+          Buscar
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="textoBusqueda"
+          placeholder="Nombre de la cuenta">
+
+      </div>
+
+
+      <div class="filter-group">
+
+        <label>
+          Tipo
+        </label>
+
+        <select
+          [(ngModel)]="tipoSeleccionado">
+
+          <option value="">
+            Todos
+          </option>
+
+          <option
+            *ngFor="let tipo of tiposCuenta"
+            [value]="tipo">
+
+            {{ tipo }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="filter-group">
+
+        <label>
+          Estado
+        </label>
+
+        <select
+          [(ngModel)]="estadoSeleccionado">
+
+          <option value="">
+            Todos
+          </option>
+
+          <option value="activas">
+            Activas
+          </option>
+
+          <option value="inactivas">
+            Inactivas
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="filter-group">
+
+        <label>
+          Saldo
+        </label>
+
+        <select
+          [(ngModel)]="saldoSeleccionado">
+
+          <option value="">
+            Todos
+          </option>
+
+          <option value="con-saldo">
+            Con saldo
+          </option>
+
+          <option value="saldo-cero">
+            Saldo cero
+          </option>
+
+          <option value="positivo">
+            Positivo
+          </option>
+
+          <option value="negativo">
+            Negativo
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="filter-group">
+
+        <label>
+          Ordenar por
+        </label>
+
+        <select
+          [(ngModel)]="ordenSeleccionado">
+
+          <option value="nombre">
+            Nombre
+          </option>
+
+          <option value="saldo-mayor">
+            Mayor saldo
+          </option>
+
+          <option value="saldo-menor">
+            Menor saldo
+          </option>
+
+          <option value="tipo">
+            Tipo
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <div class="filters-footer">
+
+      <span>
+        {{ cuentasFiltradas.length }}
+        cuenta{{ cuentasFiltradas.length === 1 ? '' : 's' }}
+      </span>
+
+      <button
+        type="button"
+        class="btn"
+        (click)="limpiarFiltros()">
+        Limpiar filtros
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- TABLA -->
+  <div
+    class="table-card"
+    *ngIf="!cargando">
+
     <table>
+
       <thead>
+
         <tr>
+
           <th>ID</th>
           <th>Nombre</th>
           <th>Tipo</th>
           <th>Saldo</th>
           <th>Acciones</th>
+
         </tr>
+
       </thead>
 
+
       <tbody>
-        <tr *ngFor="let cuenta of cuentas">
-          <td>{{ cuenta.idCuenta }}</td>
-          <td>{{ cuenta.nombre }}</td>
-          <td>{{ cuenta.tipo }}</td>
-          <td>Q {{ obtenerSaldo(cuenta.idCuenta) | number:'1.2-2' }}</td>
+
+        <tr
+          *ngFor="let cuenta of cuentasFiltradas">
+
+          <td>
+            {{ cuenta.idCuenta }}
+          </td>
+
+          <td>
+            {{ cuenta.nombre }}
+          </td>
+
+          <td>
+
+            <span class="type-badge">
+              {{ cuenta.tipo }}
+            </span>
+
+          </td>
+
+          <td
+            class="saldo"
+            [class.saldo-negativo]="
+              obtenerSaldo(cuenta.idCuenta) < 0
+            ">
+
+            Q {{
+              obtenerSaldo(cuenta.idCuenta)
+              | number:'1.2-2'
+            }}
+
+          </td>
+
           <td class="actions">
-            <a [routerLink]="['/cuentas/editar', cuenta.idCuenta]" class="btn small">
+
+            <a
+              [routerLink]="[
+                '/cuentas/editar',
+                cuenta.idCuenta
+              ]"
+              class="btn small">
+
               Editar
+
             </a>
 
-            <a [routerLink]="['/movimientos/cuenta', cuenta.idCuenta]" class="btn small">
+            <a
+              [routerLink]="[
+                '/movimientos/cuenta',
+                cuenta.idCuenta
+              ]"
+              class="btn small">
+
               Movimientos
+
             </a>
+
           </td>
+
         </tr>
+
       </tbody>
+
+
+      <tfoot
+        *ngIf="cuentasFiltradas.length > 0">
+
+        <tr>
+
+          <td colspan="3">
+            <strong>
+              Total filtrado
+            </strong>
+          </td>
+
+          <td class="total-value">
+            Q {{ totalFiltrado | number:'1.2-2' }}
+          </td>
+
+          <td></td>
+
+        </tr>
+
+      </tfoot>
+
     </table>
 
-    <div *ngIf="cuentas.length === 0" class="empty">
-      No hay cuentas registradas.
+
+    <div
+      *ngIf="cuentasFiltradas.length === 0"
+      class="empty">
+
+      No hay cuentas que coincidan con los filtros.
+
     </div>
+
   </div>
+
 </section>
